@@ -1,7 +1,7 @@
 module.exports = {
     env: {
         browser: true,
-        es2021: true,
+        es2021: true
     },
     extends: ["plugin:vue/vue3-essential", "plugin:prettier/recommended"],
     overrides: [
@@ -11,20 +11,20 @@ module.exports = {
             parserOptions: {
                 ecmaVersion: "latest",
                 sourceType: "module",
-                project: "./tsconfig.json",
+                project: "./tsconfig.json"
             },
             extends: ["plugin:@typescript-eslint/recommended"],
             rules: {
-                "@typescript-eslint/dot-notation": "off",
+                "@typescript-eslint/dot-notation": "off"
             }
-        },
+        }
     ],
     plugins: ["vue", "@typescript-eslint", "prettier"],
     rules: {
         "vue/no-multiple-template-root": "off",
         "vue/require-default-prop": "off",
         "vue/require-prop-types": "off",
-        "comma-dangle": ["error", "always-multiline"],
+        "comma-dangle": ["error", "never"],
         "vue/script-indent": ["error", 2, { baseIndent: 1 }],
         "vue/html-indent": ["error", 2, { baseIndent: 1 }],
         "vue/html-self-closing": [
@@ -33,10 +33,10 @@ module.exports = {
                 html: {
                     void: "never",
                     normal: "never",
-                    component: "always",
+                    component: "always"
                 }
-            },
+            }
         ],
-        "vue/multi-word-component-names": "off",
+        "vue/multi-word-component-names": "off"
     }
 };
