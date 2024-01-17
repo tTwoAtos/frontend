@@ -22,6 +22,7 @@ module.exports = {
     ],
     plugins: ["vue", "@typescript-eslint", "prettier"],
     rules: {
+        semi: "off",
         "vue/no-multiple-template-root": "off",
         "vue/require-default-prop": "off",
         "vue/require-prop-types": "off",
