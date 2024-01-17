@@ -25,7 +25,9 @@
     "src/**/*.tsx", 
     "src/**/*.vue", 
     "components.d.ts",
-    "jest.config.ts"],
+    "jest.config.ts",
+    "cypress/**/*.ts",
+    "cypress.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "exclude": ["node_modules"]
 }
