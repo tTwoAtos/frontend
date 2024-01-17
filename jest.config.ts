@@ -146,10 +146,12 @@ const config: Config = {
     // snapshotSerializers: [],
 
     // The test environment that will be used for testing
-    testEnvironment: "jest-environment-jsdom"
+    testEnvironment: "jest-environment-jsdom",
 
     // Options that will be passed to the testEnvironment
-    // testEnvironmentOptions: {},
+    testEnvironmentOptions: {
+        customExportConditions: ["node", "node-addons"]
+    }
 
     // Adds a location field to test results
     // testLocationInResults: false,

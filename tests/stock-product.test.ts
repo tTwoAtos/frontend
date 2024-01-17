@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils";
-import StockProduct from "@/components/StockProduct-Update.vue";
+import StockProduct from "../src/components/StockProduct-Update.vue";
 import products from "@/assets/products.json";
 import { expect } from "chai";
 
