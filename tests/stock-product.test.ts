@@ -13,7 +13,6 @@ describe("StockProduct-Update.vue", () => {
         const wrapper = shallowMount(StockProduct);
         wrapper.setData({ products: [...products] });
 
-        // Simulate a change in the stock of the first product
         await wrapper.vm.updateStock(0);
         expect(wrapper.vm.$data.products[0].stock).to.equal(products[0].stock);
     });
