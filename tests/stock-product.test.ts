@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import StockProductUpdate from "../src/components/StockProduct-Update.vue";
+import StockProductUpdate from "@/components/StockProduct-Update.vue";
 
 describe("StockProduct-Update.vue", () => {
     it("loads products and updates stock", async () => {
