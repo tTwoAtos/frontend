@@ -7,31 +7,36 @@
  */
 export class BareCodeReader {
     /**
-     * Barecode of new added product
+     * URL of new added product
      */
-    private _bareCode: string = "";
-
-    get bareCode() {
-        return this._bareCode;
-    }
+    private _productURL: string = "";
 
     /**
-     * Will save the bareCode in a field
-     * @see _bareCode
+     *
+     * @see _productURL
      * @param bareCode Barecode of the current entry of a new product
      */
-    RetrieveBareCode(bareCode: string) {
-        this._bareCode = bareCode;
-        this.FoundCorrespondingProduct(this._bareCode);
+    async GetProductByURL(bareCode: string) {
+        this._productURL = process.env.BACK_END_API_URL + `/${bareCode}`;
+        //return this.FoundCorrespondingProduct(this._productURL)
     }
 
     /**
      * Will return a product with an id corresponding at the barecode parameter
      * @param barecode Barecode of a new added product
      */
-    // private FoundCorrespondingProduct(barecode: string) /*: Product*/ {
+    // private async FoundCorrespondingProduct(productUrl: string): Promise<any> /*: Product*/ {
     //     // get the bare code and reshearch in the OpenFoodFact API the corresponding product
+    //     const reponse: Response = await fetch(productUrl, {
+    //         method: "GET",
+    //     mode: "cors",
+    //     cache: "no-cache",
+    //     credentials: "same-origin",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    // })
 
-    //     // return founded product in the database API
+    //     return reponse.json()
     // }
 }
