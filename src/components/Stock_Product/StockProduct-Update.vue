@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="update-stock-container">
     <h2>Update Stock</h2>
     <div v-for="(item, index) in products" :key="index" data-cy="product">
       <h4>{{ item.name }}</h4>
@@ -26,6 +26,13 @@
 </template>
 
 <style scoped>
+  .update-stock-container
+  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   @media (min-width: 768px)
   {
     .stock-container 
