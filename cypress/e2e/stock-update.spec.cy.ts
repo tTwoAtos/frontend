@@ -42,9 +42,14 @@ describe("stock update", () => {
     it("should not allow negative numbers", () => {
         cy.get("[data-cy=product]").each(($el) => {
             updateStock($el, "-5");
-            cy.get(`[id^="stock-description-"]`).should(
+            cy.get("[id^='stock-description-']").should(
                 "not.have.class",
                 "visually-hidden"
+            );
+            cy.get("[data-cy=stock-input]").should(
+                "have.attr",
+                "aria-invalid",
+                "true"
             );
         });
     });
@@ -52,9 +57,14 @@ describe("stock update", () => {
     it("should not allow non-numeric characters", () => {
         cy.get("[data-cy=product]").each(($el) => {
             updateStock($el, "abc");
-            cy.get(`[id^="stock-description-"]`).should(
+            cy.get("[id^='stock-description-']").should(
                 "not.have.class",
                 "visually-hidden"
+            );
+            cy.get("[data-cy=stock-input]").should(
+                "have.attr",
+                "aria-invalid",
+                "true"
             );
         });
     });
