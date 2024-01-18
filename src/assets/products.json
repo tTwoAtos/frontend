@@ -1,0 +1,14 @@
+[
+    {
+      "name": "Product 1",
+      "stock": 10
+    },
+    {
+      "name": "Product 2",
+      "stock": 20
+    },
+    {
+      "name": "Product 3",
+      "stock": 30
+    }
+]

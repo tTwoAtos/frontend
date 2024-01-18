@@ -15,12 +15,14 @@ module.exports = {
             },
             extends: ["plugin:@typescript-eslint/recommended"],
             rules: {
-                "@typescript-eslint/dot-notation": "off"
+                "@typescript-eslint/dot-notation": "off",
+                "@typescript-eslint/no-namespace": "off"
             }
         }
     ],
     plugins: ["vue", "@typescript-eslint", "prettier"],
     rules: {
+        semi: "off",
         "vue/no-multiple-template-root": "off",
         "vue/require-default-prop": "off",
         "vue/require-prop-types": "off",
