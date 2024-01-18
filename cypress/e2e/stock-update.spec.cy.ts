@@ -12,9 +12,11 @@ describe("stock update", () => {
      */
     const updateStock = ($el: JQuery<HTMLElement>, newValue: string) => {
         cy.wrap($el).within(() => {
-            cy.get("[data-cy=stock-input]").invoke("val").as("initialStock");
-            cy.get("[data-cy=stock-input]").type(`{selectall}${newValue}`);
-            cy.get("[data-cy=stock-input]").trigger("change");
+            cy.get("[data-cy=stock-input]").should("be.visible");
+            cy.get("[data-cy=stock-input]")
+                .clear()
+                .type(newValue)
+                .trigger("change", { force: true });
             cy.get("[data-cy=stock-input]").should("have.value", newValue);
         });
     };
@@ -22,6 +24,18 @@ describe("stock update", () => {
     it("should update stock when input changes", () => {
         cy.get("[data-cy=product]").each(($el) => {
             updateStock($el, "123");
+        });
+    });
+
+    it("should disable input when stock is at 0", () => {
+        cy.get("[data-cy=product]").each(($el) => {
+            cy.wrap($el).within(() => {
+                cy.get("[data-cy=stock-input]")
+                    .should("be.visible")
+                    .should("not.be.disabled");
+                updateStock($el, "0");
+            });
+            cy.get("[data-cy=stock-input]").should("be.disabled");
         });
     });
 });
