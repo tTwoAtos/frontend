@@ -38,4 +38,24 @@ describe("stock update", () => {
             cy.get("[data-cy=stock-input]").should("be.disabled");
         });
     });
+
+    it("should not allow negative numbers", () => {
+        cy.get("[data-cy=product]").each(($el) => {
+            updateStock($el, "-5");
+            cy.get(`[id^="stock-description-"]`).should(
+                "not.have.class",
+                "visually-hidden"
+            );
+        });
+    });
+
+    it("should not allow non-numeric characters", () => {
+        cy.get("[data-cy=product]").each(($el) => {
+            updateStock($el, "abc");
+            cy.get(`[id^="stock-description-"]`).should(
+                "not.have.class",
+                "visually-hidden"
+            );
+        });
+    });
 });

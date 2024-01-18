@@ -65,9 +65,11 @@ import products from '@/assets/products.json';
 
 export default {
   /**
-   * Initializes the data for the component.
+   * Returns an object containing the initial data for the Vue component.
    *
-   * @return {Object} - The initial data object.
+   * @return {Object} An object with the following properties:
+   *   - `products`: An array of products parsed from the localStorage or a default array.
+   *   - `debouncedUpdate`: A null value that will be used later for debounced updates.
    */
   data() {
     return {
@@ -79,17 +81,27 @@ export default {
     /**
      * Updates the stock of a product at the specified index.
      *
-     * @param {number} index - The index of the product in the products array.
-     * @return {void} This function does not return a value.
+     * @param {number} index - The index of the product to update.
      */
     updateStock(index: number) {
       const product = this.products[index];
-      product.stock = parseInt(product.stock);
+      const enteredStock = parseInt(product.stock);
 
-      clearTimeout(this.debouncedUpdate);
-      this.debouncedUpdate = setTimeout(() => {
-        localStorage.setItem('products', JSON.stringify(this.products));
-      }, 500)
+      if (!isNaN(enteredStock) && enteredStock >= 0) 
+      {
+        product.stock = enteredStock;
+
+        clearTimeout(this.debouncedUpdate);
+        this.debouncedUpdate = setTimeout(() => {
+          localStorage.setItem('products', JSON.stringify(this.products));
+        }, 500);
+      } 
+      
+      else 
+      {
+        const stockDescription = document.getElementById(`stock-description-${index}`);
+        stockDescription?.classList.remove('visually-hidden');
+      }
     },
   },
 };
