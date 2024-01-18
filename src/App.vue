@@ -2,6 +2,7 @@
   <v-app>
     <v-main>
       <HelloWorld />
+      <StockProduct-Update />
     </v-main>
   </v-app>
 </template>
