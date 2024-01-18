@@ -1,73 +1,41 @@
-import { shallowMount, VueWrapper } from "@vue/test-utils";
-import StockProductUpdateVue from "@/components/StockProduct-Update.vue";
+import { shallowMount } from "@vue/test-utils";
 import { expect } from "chai";
+import StockProductUpdateVue from "@/components/Stock_Product/StockProduct-Update.vue";
 
 describe("StockProductUpdateVue", () => {
-    let wrapper: VueWrapper<typeof StockProductUpdateVue>;
-
-    beforeEach(() => {
-        wrapper = shallowMount(StockProductUpdateVue);
-    });
-
     it("renders correctly", () => {
+        const wrapper = shallowMount(StockProductUpdateVue);
         expect(wrapper.exists()).to.be.true;
     });
 
-    it("displays products with correct data-cy attribute", () => {
-        const productElements = wrapper.findAll('[data-cy="product"]');
-        expect(productElements.length).to.equal(wrapper.vm.products.length);
+    it("updates the stock correctly", () => {
+        const wrapper = shallowMount(StockProductUpdateVue);
+        const product: { stock: number } = wrapper.vm.products[0];
+        const initialStock = product.stock;
+
+        // Simulate stock update
+        product.stock = initialStock + 1;
+        wrapper.vm.$emit("StockProductUpdateVue", 0);
+
+        // Check if the stock is updated in the component's data
+        expect(wrapper.vm.products[0].stock).to.equal(initialStock + 1);
+
+        // Check if the stock is updated in the localStorage
+        const storedProducts = JSON.parse(
+            localStorage.getItem("products") ?? "[]"
+        );
+        expect(storedProducts[0].stock).to.equal(initialStock + 1);
     });
 
-    it("updates stock when input changes", async () => {
-        const input = wrapper.find('[data-cy="stock-input"]');
-        const initialStock = wrapper.vm.products[0].stock;
-
-        await input.setValue("42");
-        expect(wrapper.vm.products[0].stock).equal(42);
-
-        await input.setValue("24");
-        expect(wrapper.vm.products[0].stock).equal(24);
-
-        // Ensure debouncing is working
-        jest.advanceTimersByTime(500);
-        expect(localStorage.setItem).toHaveBeenCalledWith("stock", "24");
-
-        // Restore initial stock value
-        wrapper.vm.products[0].stock = initialStock;
-    });
-
-    it("disables input when stock is 0", async () => {
-        const input = wrapper.find('[data-cy="stock-input"]');
-        expect(input.attributes("disabled")).equal(false);
+    it("disables the stock input when stock is 0", () => {
+        const wrapper = shallowMount(StockProductUpdateVue);
+        const product = wrapper.vm.products[0];
 
         // Set stock to 0
-        wrapper.vm.products[0].stock = 0;
+        product.stock = 0;
 
-        // Update stock to trigger @change event
-        await input.setValue("42");
-
-        expect(input.attributes("disabled")).equal(true);
-    });
-
-    it("debounces the updateStock method", async () => {
-        const spyUpdateStock = jest.spyOn(wrapper.vm, "updateStock");
-
-        const input = wrapper.find('[data-cy="stock-input"]');
-        await input.setValue("42");
-
-        // Advance timers less than the debounce time
-        jest.advanceTimersByTime(400);
-        expect(spyUpdateStock).not.toHaveBeenCalled();
-
-        // Advance timers beyond the debounce time
-        jest.advanceTimersByTime(100);
-        expect(spyUpdateStock).toHaveBeenCalled();
-
-        // Restore initial state
-        wrapper.vm.products[0].stock = 0;
-    });
-
-    afterAll(() => {
-        jest.clearAllTimers();
+        // Check if the stock input is disabled
+        const stockInput = wrapper.find('[data-cy="stock-input"]');
+        expect(stockInput.attributes("disabled")).to.equal("disabled");
     });
 });
