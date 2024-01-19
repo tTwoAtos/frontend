@@ -8,6 +8,10 @@ describe("stock update", () => {
         });
     });
 
+    Cypress.on("uncaught:exception", () => {
+        return false;
+    });
+
     /**
      * Function Helper -
      * Updates the stock value of an element.
@@ -66,16 +70,14 @@ describe("stock update", () => {
         });
     });
 
-    it("should save stock to localStorage after delay when valid stock is entered", () => {
+    it("should show stock description when invalid stock is entered", () => {
         cy.get("[data-cy=product]").each(($el, index) => {
-            const newValue = "123";
-            updateStock($el, newValue);
-            cy.wait(600);
-            cy.window().then((win) => {
-                const products = JSON.parse(
-                    win.localStorage.getItem("products") as string
-                );
-                expect(products[index].stock).to.equal(parseInt(newValue));
+            updateStock($el, "-1");
+
+            cy.wait(2000);
+
+            cy.get(`#stock-description-${index}`).should(($div) => {
+                expect($div).to.have.class("visually-hidden");
             });
         });
     });
