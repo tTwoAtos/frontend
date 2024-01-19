@@ -1,4 +1,4 @@
-export default class UpdateProduct {
+export default class UpdateStock {
     private products: any[];
 
     /**
