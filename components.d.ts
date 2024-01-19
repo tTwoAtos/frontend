@@ -7,6 +7,7 @@ export {}
 
 declare module "vue" {
     export interface GlobalComponents {
+        BareCodeReader: (typeof import("./src/components/BareCodeReader/bareCodeReader.vue"))["default"];
         HelloWorld: (typeof import("./src/components/HelloWorld.vue"))["default"];
         StockProductUpdate: (typeof import("./src/components/StockProduct-Update.vue"))["default"];
     }
