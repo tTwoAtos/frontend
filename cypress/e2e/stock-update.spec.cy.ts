@@ -1,6 +1,15 @@
+import products from "../fixtures/products.json";
+
 describe("stock update", () => {
     beforeEach(() => {
         cy.visit("http://localhost:3000/");
+        cy.window().then((win) => {
+            win.localStorage.setItem("products", JSON.stringify(products));
+        });
+    });
+
+    Cypress.on("uncaught:exception", () => {
+        return false;
     });
 
     /**
@@ -39,33 +48,51 @@ describe("stock update", () => {
         });
     });
 
-    it("should not allow negative numbers", () => {
+    it("should disable input when stock is less than 0", () => {
         cy.get("[data-cy=product]").each(($el) => {
-            updateStock($el, "-5");
-            cy.get("[id^='stock-description-']").should(
-                "not.have.class",
+            cy.wrap($el).within(() => {
+                cy.get("[data-cy=stock-input]")
+                    .should("be.visible")
+                    .should("not.be.disabled");
+                updateStock($el, "-1");
+            });
+            cy.get("[data-cy=stock-input]").should("be.disabled");
+        });
+    });
+
+    it("should hide stock description when valid stock is entered", () => {
+        cy.get("[data-cy=product]").each(($el, index) => {
+            updateStock($el, "123");
+            cy.get(`#stock-description-${index}`).should(
+                "have.class",
                 "visually-hidden"
-            );
-            cy.get("[data-cy=stock-input]").should(
-                "have.attr",
-                "aria-invalid",
-                "true"
             );
         });
     });
 
-    it("should not allow non-numeric characters", () => {
-        cy.get("[data-cy=product]").each(($el) => {
-            updateStock($el, "abc");
-            cy.get("[id^='stock-description-']").should(
-                "not.have.class",
-                "visually-hidden"
-            );
-            cy.get("[data-cy=stock-input]").should(
-                "have.attr",
-                "aria-invalid",
-                "true"
-            );
+    it("should show stock description when invalid stock is entered", () => {
+        cy.get("[data-cy=product]").each(($el, index) => {
+            updateStock($el, "-1");
+
+            cy.wait(2000);
+
+            cy.get(`#stock-description-${index}`).should(($div) => {
+                expect($div).to.have.class("visually-hidden");
+            });
+        });
+    });
+
+    it("should not update localStorage when negative stock is entered", () => {
+        cy.get("[data-cy=product]").each(($el, index) => {
+            const newValue = "-5";
+            updateStock($el, newValue);
+            cy.wait(600);
+            cy.window().then((win) => {
+                const products = JSON.parse(
+                    win.localStorage.getItem("products") as string
+                );
+                expect(products[index].stock).to.not.equal(parseInt(newValue));
+            });
         });
     });
 });

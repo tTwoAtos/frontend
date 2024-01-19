@@ -5,20 +5,21 @@
       <h4>{{ item.name }}</h4>
       <div class="stock-container">
         <label for="stock">Stock: </label>
-        <input 
+        <input
+          class="stock-input" 
           type="number" 
           id="stock" 
           v-model="item.stock" 
-          :disabled="item.stock === 0" 
+          :disabled="item.stock === 0 || isNaN(item.stock) || item.stock < 0" 
           @change="updateStock(index)" 
           data-cy="stock-input"
           aria-label="Stock Input"
           :aria-describedby="`stock-input-${index}`"
-          :aria-invalid="item.stock === 0"
-          @keyup.enter="updateStock(index)"  
+          :aria-invalid="isNaN(item.stock) || item.stock < 0"
+          @keyup.enter="updateStock(index)" 
         >
         <div :id="'stock-description-' + index" class="visually-hidden">
-          Please enter a valid stock value.
+          {{ isNaN(item.stock) || item.stock < 0 ? 'Please enter a valid stock value.' : '' }}
         </div>
       </div>
     </div>
@@ -26,82 +27,40 @@
 </template>
 
 <style scoped>
-  .update-stock-container
-  {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  @media (min-width: 768px)
-  {
-    .stock-container 
-    {
-      display: flex;
-      align-items: center;
-    }
-
-    label
-    {
-      margin-right: 10px;
-    }
-  }
-
-  .visually-hidden
-  {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    border: 0;
-    white-space: nowrap;
-  }
+@import "./UpdateProduct.css";
 </style>
 
 <script lang="ts">
-import products from '@/assets/products.json';
+import products from '../../assets/products.json';
+import StockProductComponent from './StockProduct.class.vue';
 
 export default {
+  components: {
+    StockProduct: StockProductComponent,
+  },
   /**
-   * Returns an object containing the initial data for the Vue component.
+   * Initializes the data for the component.
    *
-   * @return {Object} An object with the following properties:
-   *   - `products`: An array of products parsed from the localStorage or a default array.
-   *   - `debouncedUpdate`: A null value that will be used later for debounced updates.
+   * @return {Object} An object containing the initial data for the component.
    */
   data() {
+    const storedProducts = localStorage.getItem('products');
+    const initialProducts = storedProducts ? JSON.parse(storedProducts) : products;
+
     return {
-      products: JSON.parse(localStorage.getItem('products') as string) || products,
-      debouncedUpdate: null as any,
+      products: initialProducts,
     };
   },
   methods: {
     /**
      * Updates the stock of a product at the specified index.
      *
-     * @param {number} index - The index of the product to update.
+     * @param {number} index - The index of the product to update the stock for.
+     * @return {void} This function does not return a value.
      */
     updateStock(index: number) {
-      const product = this.products[index];
-      const enteredStock = parseInt(product.stock);
-
-      if (!isNaN(enteredStock) && enteredStock >= 0) 
-      {
-        product.stock = enteredStock;
-
-        clearTimeout(this.debouncedUpdate);
-        this.debouncedUpdate = setTimeout(() => {
-          localStorage.setItem('products', JSON.stringify(this.products));
-        }, 500);
-      } 
-      
-      else 
-      {
-        const stockDescription = document.getElementById(`stock-description-${index}`);
-        stockDescription?.classList.remove('visually-hidden');
-      }
+      const logicComponent = this.$refs.logicComponent as typeof StockProductComponent;
+      logicComponent.updateStock(index, this.products);
     },
   },
 };

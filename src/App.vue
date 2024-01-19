@@ -27,7 +27,6 @@ new QueryClient({
     <v-main>
       <!-- <StockProduct-Update /> -->
       <BareCodeReader></BareCodeReader>
-      <AddProduct :product="productTest" :is-open="true" />
     </v-main>
   </v-app>
 </template>

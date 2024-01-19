@@ -29,8 +29,6 @@ async function onSubmit(event: any) {
     let products = localStorage.products ? JSON.parse(localStorage.products) : {}
     products[product.id] = { ...product }
     localStorage.products = JSON.stringify(products)
-
-
 }
 </script>
 
