@@ -16,7 +16,8 @@ module.exports = {
             extends: ["plugin:@typescript-eslint/recommended"],
             rules: {
                 "@typescript-eslint/dot-notation": "off",
-                "@typescript-eslint/no-namespace": "off"
+                "@typescript-eslint/no-namespace": "off",
+                "@typescript-eslint/no-explicit-any": "off"
             }
         }
     ],
@@ -39,6 +40,7 @@ module.exports = {
                 }
             }
         ],
-        "vue/multi-word-component-names": "off"
+        "vue/multi-word-component-names": "off",
+        "@typescript-eslint/no-explicit-any": "off"
     }
 };
