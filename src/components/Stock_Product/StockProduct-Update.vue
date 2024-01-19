@@ -5,7 +5,8 @@
       <h4>{{ item.name }}</h4>
       <div class="stock-container">
         <label for="stock">Stock: </label>
-        <input 
+        <input
+          class="stock-input" 
           type="number" 
           id="stock" 
           v-model="item.stock" 
@@ -33,7 +34,7 @@
     align-items: center;
   }
 
-  @media (min-width: 768px)
+  @media (min-width: 48em)
   {
     .stock-container 
     {
@@ -43,22 +44,44 @@
 
     label
     {
-      margin-right: 10px;
+      margin-right: 0.625em;
     }
   }
 
   .visually-hidden
   {
     position: absolute;
-    width: 1px;
-    height: 1px;
+    width: 0.0625em;
+    height: 0.0625em;
     padding: 0;
     overflow: hidden;
     clip: rect(0,0,0,0);
     border: 0;
     white-space: nowrap;
   }
+
+  .stock-input {
+    width: 5em;
+    padding: 0.5em;
+    border: 0.0625em solid #ccc;
+  }
+
+
+  .stock-input:focus 
+  {
+    outline: none;
+    box-shadow: 0 0 0.3125em rgba(0, 0, 0, 0.2);
+    border-color: #4CAF50;
+  }
+
+  .stock-input:disabled
+  {
+    background-color: #f2f2f2;
+    color: #808080;
+    cursor: not-allowed;
+  }
 </style>
+
 
 <script lang="ts">
 import products from '@/assets/products.json';
@@ -108,4 +131,3 @@ export default {
   },
 };
 </script>
-
