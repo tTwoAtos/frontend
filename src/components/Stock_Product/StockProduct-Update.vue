@@ -27,18 +27,21 @@
 </template>
 
 <style scoped>
-@import "./UpdateProduct.css"
+@import "./UpdateProduct.css";
 </style>
 
-
 <script lang="ts">
-import products from '@/assets/products.json';
+import products from '../../assets/products.json';
+import StockProductComponent from './StockProduct.class.vue';
 
 export default {
+  components: {
+    StockProduct: StockProductComponent,
+  },
   /**
    * Initializes the data for the component.
    *
-   * @return {Object} - An object containing the initial values for the component's data properties.
+   * @return {Object} An object containing the initial data for the component.
    */
   data() {
     const storedProducts = localStorage.getItem('products');
@@ -46,35 +49,18 @@ export default {
 
     return {
       products: initialProducts,
-      debouncedUpdate: null as any,
-      previousStocks: {} as Record<number, number>,
     };
   },
   methods: {
     /**
      * Updates the stock of a product at the specified index.
      *
-     * @param {number} index - The index of the product in the products array.
+     * @param {number} index - The index of the product to update the stock for.
      * @return {void} This function does not return a value.
      */
     updateStock(index: number) {
-      const product = this.products[index];
-      const enteredStock = parseInt(product.stock);
-
-      if (!isNaN(enteredStock) && Number.isInteger(enteredStock) && enteredStock >= 0) {
-        product.stock = enteredStock;
-
-        const stockDescription = document.getElementById(`stock-description-${index}`);
-        stockDescription?.classList.add('visually-hidden');
-
-        clearTimeout(this.debouncedUpdate);
-        this.debouncedUpdate = setTimeout(() => {
-          localStorage.setItem('products', JSON.stringify(this.products));
-        }, 500);
-      } else {
-        const stockDescription = document.getElementById(`stock-description-${index}`);
-        stockDescription?.classList.remove('visually-hidden');
-      }
+      const logicComponent = this.$refs.logicComponent as typeof StockProductComponent;
+      logicComponent.updateStock(index, this.products);
     },
   },
 };

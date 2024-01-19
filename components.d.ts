@@ -8,6 +8,8 @@ export {}
 declare module "vue" {
     export interface GlobalComponents {
         BareCodeReader: (typeof import("./src/components/BareCodeReader/bareCodeReader.vue"))["default"];
+        HelloWorld: (typeof import("./src/components/HelloWorld.vue"))["default"];
+        "StockProduct.class": (typeof import("./src/components/Stock_Product/StockProduct.class.vue"))["default"];
         StockProductUpdate: (typeof import("./src/components/Stock_Product/StockProduct-Update.vue"))["default"];
     }
 }
