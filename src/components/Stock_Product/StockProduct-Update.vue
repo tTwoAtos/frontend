@@ -9,16 +9,16 @@
           type="number" 
           id="stock" 
           v-model="item.stock" 
-          :disabled="item.stock === 0" 
+          :disabled="item.stock === 0 || isNaN(item.stock) || item.stock < 0" 
           @change="updateStock(index)" 
           data-cy="stock-input"
           aria-label="Stock Input"
           :aria-describedby="`stock-input-${index}`"
-          :aria-invalid="item.stock === 0"
-          @keyup.enter="updateStock(index)"  
+          :aria-invalid="isNaN(item.stock) || item.stock < 0"
+          @keyup.enter="updateStock(index)" 
         >
         <div :id="'stock-description-' + index" class="visually-hidden">
-          Please enter a valid stock value.
+          {{ isNaN(item.stock) || item.stock < 0 ? 'Please enter a valid stock value.' : '' }}
         </div>
       </div>
     </div>
@@ -65,40 +65,42 @@ import products from '@/assets/products.json';
 
 export default {
   /**
-   * Returns an object containing the initial data for the Vue component.
+   * Initializes the data for the component.
    *
-   * @return {Object} An object with the following properties:
-   *   - `products`: An array of products parsed from the localStorage or a default array.
-   *   - `debouncedUpdate`: A null value that will be used later for debounced updates.
+   * @return {Object} - An object containing the initial values for the component's data properties.
    */
   data() {
+    const storedProducts = localStorage.getItem('products');
+    const initialProducts = storedProducts ? JSON.parse(storedProducts) : products;
+
     return {
-      products: JSON.parse(localStorage.getItem('products') as string) || products,
+      products: initialProducts,
       debouncedUpdate: null as any,
+      previousStocks: {} as Record<number, number>,
     };
   },
   methods: {
     /**
      * Updates the stock of a product at the specified index.
      *
-     * @param {number} index - The index of the product to update.
+     * @param {number} index - The index of the product in the products array.
+     * @return {void} This function does not return a value.
      */
     updateStock(index: number) {
       const product = this.products[index];
       const enteredStock = parseInt(product.stock);
 
-      if (!isNaN(enteredStock) && enteredStock >= 0) 
-      {
+      if (!isNaN(enteredStock) && Number.isInteger(enteredStock) && enteredStock >= 0) {
         product.stock = enteredStock;
+
+        const stockDescription = document.getElementById(`stock-description-${index}`);
+        stockDescription?.classList.add('visually-hidden');
 
         clearTimeout(this.debouncedUpdate);
         this.debouncedUpdate = setTimeout(() => {
           localStorage.setItem('products', JSON.stringify(this.products));
         }, 500);
-      } 
-      
-      else 
-      {
+      } else {
         const stockDescription = document.getElementById(`stock-description-${index}`);
         stockDescription?.classList.remove('visually-hidden');
       }
@@ -106,3 +108,4 @@ export default {
   },
 };
 </script>
+

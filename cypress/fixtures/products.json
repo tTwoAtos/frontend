@@ -1,0 +1,14 @@
+[
+    {
+      "name": "Bananes",
+      "stock": 10
+    },
+    {
+      "name": "Pommes",
+      "stock": 20
+    },
+    {
+      "name": "Poires",
+      "stock": 30
+    }
+]
