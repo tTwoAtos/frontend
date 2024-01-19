@@ -11,8 +11,8 @@ import { registerPlugins } from "@/plugins";
 import App from "./App.vue";
 
 // Composables
-import { createApp } from "vue";
 import { AxiosInstance } from "axios";
+import { createApp } from "vue";
 
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {

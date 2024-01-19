@@ -5,4 +5,6 @@ export interface Product {
     imageUrl: string;
     thumbUrl: string;
     group: string;
+    quantity?: number;
+    price?: number;
 }
