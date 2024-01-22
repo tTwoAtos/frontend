@@ -15,7 +15,7 @@ const productTest: Ref<Product> = ref({
 new QueryClient({
   defaultOptions: {
     queries: {
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+      retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
       retry: 3,
     },
   },
@@ -26,6 +26,7 @@ new QueryClient({
   <v-app>
     <v-main>
       <!-- <StockProduct-Update /> -->
+      <AddProduct :product="productTest" :is-open="true" />
       <BareCodeReader></BareCodeReader>
     </v-main>
   </v-app>
