@@ -15,9 +15,8 @@ const productTest: Ref<Product> = ref({
 <template>
   <v-app>
     <v-main>
-      <!-- <StockProduct-Update /> -->
       <AddProduct :product="productTest" :is-open="true" />
-      <BareCodeReader></BareCodeReader>
+      <BareCodeReader />
     </v-main>
   </v-app>
 </template>
