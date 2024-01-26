@@ -1,0 +1,8 @@
+diff a/.eslintrc.cjs b/.eslintrc.cjs	(rejected hunks)
+@@ -42,5 +42,6 @@
+         ],
+         "vue/multi-word-component-names": "off",
+         "@typescript-eslint/no-explicit-any": "off",
++        "@typescript-eslint/ban-ts-comment": "off",
+     }
+ };

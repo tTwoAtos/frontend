@@ -1,4 +1,4 @@
-import { Product } from "@/interfaces/product.interface";
+import { Product } from "@/interfaces/IProduct";
 import axios from "axios";
 
 export async function getProductByCode(

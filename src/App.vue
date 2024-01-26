@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { QueryClient } from "@tanstack/vue-query";
 import { Ref, ref } from "vue";
-import { Product } from "./interfaces/product.interface";
+import { Product } from "./interfaces/IProduct";
 
 const productTest: Ref<Product> = ref({
   "id": "3596710493180",
@@ -11,15 +10,6 @@ const productTest: Ref<Product> = ref({
   "imageUrl": "https://images.openfoodfacts.org/images/products/359/671/049/3180/front_fr.22.200.jpg",
   "thumbUrl": "https://images.openfoodfacts.org/images/products/359/671/049/3180/front_fr.22.100.jpg"
 })
-
-new QueryClient({
-  defaultOptions: {
-    queries: {
-      retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
-      retry: 3,
-    },
-  },
-});
 </script>
 
 <template>
