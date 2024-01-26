@@ -6,7 +6,6 @@ module.exports = {
     extends: [
         "plugin:vue/vue3-essential",
         "plugin:prettier/recommended",
-        "plugin:import/recommended",
         "plugin:promise/recommended",
         "plugin:vue/recommended",
     ],
@@ -27,7 +26,7 @@ module.exports = {
             }
         }
     ],
-    plugins: ["vue", "@typescript-eslint", "prettier", "import", "promise", 'vue'],
+    plugins: ["vue", "@typescript-eslint", "prettier", "promise", 'vue'],
     rules: {
         semi: "off",
         "vue/no-multiple-template-root": "off",

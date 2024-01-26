@@ -4,6 +4,7 @@ import type { App } from "vue";
 interface AxiosOptions {
     baseUrl?: string;
     token?: string;
+    timeout?: number;
 }
 
 export default {
@@ -12,7 +13,8 @@ export default {
             baseURL: options.baseUrl,
             headers: {
                 Authorization: options.token ? `Bearer ${options.token}` : ""
-            }
+            },
+            timeout: options.timeout
         });
 
         app.config.globalProperties.$axios = ax;
