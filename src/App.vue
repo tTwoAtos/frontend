@@ -15,7 +15,7 @@ const productTest: Ref<Product> = ref({
 <template>
   <v-app>
     <v-main>
-      <AddProduct :product="productTest" :is-open="true" />
+      <ModalAddProduct :product="productTest" :is-open="true" />
       <BareCodeReader />
     </v-main>
   </v-app>

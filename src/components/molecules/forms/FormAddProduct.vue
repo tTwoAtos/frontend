@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { Product } from '@/interfaces/IProduct';
-import addProductValidation from '@/validations/addProductValidation';
+import { ProductQuery } from '@/queries/productQueries';
+import { addProductValidation } from '@/validations/ProductValidation';
+import { useMutation } from '@tanstack/vue-query';
+import { AxiosInstance } from 'axios';
 import { useForm } from 'vee-validate';
-import { Ref, ref } from 'vue';
+import { Ref, inject, ref } from 'vue';
+import { useToast } from 'vue-toast-notification';
+const axios: AxiosInstance | undefined = inject('axios')
 
 const props = defineProps<{
     product: Product
@@ -15,12 +20,21 @@ const { defineField, errors, handleSubmit } = useForm({
 
 let expirationDate: Ref<string> = ref<string>(props.product.expirationDate)
 const [name, nameAttrs] = defineField('name');
-name.value = props.product?.name
+name.value = props.product.name
 const [quantity, quantityAttrs] = defineField('quantity');
-name.value = props.product?.quantity
+quantity.value = props.product?.quantity ?? 1
 const [price, priceAttrs] = defineField('price');
-name.value = props.product?.price
+price.value = props.product?.price
 
+const { mutate } = useMutation({
+    mutationFn: (code: string) => new ProductQuery(axios).getProductByCode(code),
+    onError: (err) => {
+        useToast().error(err.message)
+    },
+    onSuccess(data) {
+        console.log(data);
+    },
+})
 
 // Functions
 const onSubmit = handleSubmit((values) => {
@@ -34,15 +48,17 @@ const onSubmit = handleSubmit((values) => {
     let products = localStorage.products ? JSON.parse(localStorage.products) : {}
     products[product.id] = { ...product }
     localStorage.products = JSON.stringify(products)
+
+    mutate("3596710493180")
 })
 </script>
 
 <template>
-    <v-form @submit.prevent="onSubmit">
-        <v-text-field v-model="name" label="Nom" :error-messages="errors.name" />
+    <v-form @submit.prevent="onSubmit" class="w-100">
+        <v-text-field id="name" v-model="name" label="Nom" :error-messages="errors.name" />
         {{ expirationDate }}
-        <v-text-field type="number" v-model="quantity" label="Nombre" :error-messages="errors.quantity" />
-        <v-text-field type="number" v-model="price" label="Prix" :error-messages="errors.price" />
+        <v-text-field id="quantity" type="number" v-model="quantity" label="Quantitée" :error-messages="errors.quantity" />
+        <v-text-field id="price" type="number" v-model="price" label="Prix" :error-messages="errors.price" />
 
         <v-btn text="Annuler" @click="onClose" color="error" variant="outlined" />
         <v-btn type="submit" text="Valider" color="primary" />

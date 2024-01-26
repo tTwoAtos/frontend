@@ -15,6 +15,8 @@ import vuetify from "./vuetify";
 // Types
 import type { App } from "vue";
 import ToastPlugin from "vue-toast-notification";
+import { setLocale } from "yup";
+import { fr } from "yup-locales";
 
 export function registerPlugins(app: App) {
     app.use(vuetify);
@@ -34,4 +36,6 @@ export function registerPlugins(app: App) {
     });
 
     app.use(ToastPlugin);
+
+    setLocale(fr);
 }
