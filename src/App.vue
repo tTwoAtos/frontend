@@ -10,10 +10,6 @@ const productTest: Ref<Product> = ref({
   "imageUrl": "https://images.openfoodfacts.org/images/products/359/671/049/3180/front_fr.22.200.jpg",
   "thumbUrl": "https://images.openfoodfacts.org/images/products/359/671/049/3180/front_fr.22.100.jpg"
 })
-
-import { setLocale } from 'yup';
-import { fr } from 'yup-locales';
-setLocale(fr);
 </script>
 
 <template>
