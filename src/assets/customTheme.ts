@@ -1,7 +1,5 @@
 export const customTheme = {
-    theme: {
-        defaultTheme: "light"
-    },
+    defaultTheme: "light",
     variations: {
         colors: ["primary", "secondary"],
         lighten: 5,
@@ -22,8 +20,6 @@ export const customTheme = {
         },
         dark: {
             colors: {
-                background: "#FFFFFF",
-                surface: "#FFFFFF",
                 primary: "#1867C0",
                 secondary: "#48A9A6",
                 error: "#B00020",

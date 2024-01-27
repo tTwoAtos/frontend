@@ -26,8 +26,8 @@ quantity.value = props.product?.quantity ?? 1
 const [price, priceAttrs] = defineField('price');
 price.value = props.product?.price
 
-const { mutate } = useMutation({
-    mutationFn: (code: string) => new ProductQuery(axios).getProductByCode(code),
+const { mutate, isPending } = useMutation({
+    mutationFn: (product: Product) => new ProductQuery(axios).addProduct(product),
     onError: (err) => {
         useToast().error(err.message)
     },
@@ -49,7 +49,7 @@ const onSubmit = handleSubmit((values) => {
     products[product.id] = { ...product }
     localStorage.products = JSON.stringify(products)
 
-    mutate("3596710493180")
+    mutate(product)
 })
 </script>
 
@@ -61,6 +61,6 @@ const onSubmit = handleSubmit((values) => {
         <v-text-field id="price" type="number" v-model="price" label="Prix" :error-messages="errors.price" />
 
         <v-btn text="Annuler" @click="onClose" color="error" variant="outlined" />
-        <v-btn type="submit" text="Valider" color="primary" />
+        <v-btn type="submit" text="Valider" color="primary" :loading="isPending" />
     </v-form>
 </template>

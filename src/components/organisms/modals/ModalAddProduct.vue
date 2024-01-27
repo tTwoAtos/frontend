@@ -11,7 +11,7 @@ const props = defineProps<{
 // Local props
 let isOpen: Ref<boolean> = ref<boolean>(props.isOpen ?? true)
 </script>
-
+    
 <template>
     <v-dialog width="500" v-model="isOpen">
         <template v-slot:default="{ isActive = isOpen }">
